@@ -1,4 +1,4 @@
-package com.adidas.stepsDefinitions;
+package com.adidas;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;

@@ -9,7 +9,8 @@ import net.serenitybdd.cucumber.CucumberWithSerenity;
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
 		features = "src/test/resources/features/petstore.feature", 
-		glue =  "com.adidas.stepsDefinitions" )
+		glue =  "com.adidas.stepsDefinitions",
+		plugin = { "pretty" } )
 public class TestRunner {
 
 }
