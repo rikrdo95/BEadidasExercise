@@ -8,7 +8,6 @@ public class Hooks {
 	public void beforeScenario(){
 		
 		System.out.println("--------------------START OF SCENARIO--------------------");
-		
 	}
 	
 	@After("@PetStore")
