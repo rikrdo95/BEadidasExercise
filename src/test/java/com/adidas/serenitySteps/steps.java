@@ -6,6 +6,9 @@ import com.adidas.utils.utils;
 import static org.mockito.ArgumentMatchers.isA;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import net.thucydides.core.annotations.Step;
 import static org.hamcrest.MatcherAssert.*; 
@@ -16,6 +19,7 @@ import io.restassured.response.Response;
 public class steps {
 
     private static Response response;
+    private static HashMap<String, String> bodyFields;
  
     private static String baseUrl;
     private static String getEndpoint;
@@ -61,14 +65,17 @@ public class steps {
 
     @Step
     public static void iPostANewSTATUSPet(String status) {
-        File file = new File("src/test/resources/requests/NewAvailablePet.json");
-        response = utils.getRequest().body(file).post(postEndpoint);
+      bodyFields = new HashMap<String, String>();
+      bodyFields.put("id", String.valueOf(lastPetCreatedId));
+      bodyFields.put("status", status);
+        response = utils.getRequest()
+          .body(utils.getJSON("pet", bodyFields))
+          .post(postEndpoint);
         
         assertThat(response.statusCode(), is(200));
+        assertThat(response.jsonPath().get("status"), is(status));
 
         lastPetCreatedId = response.jsonPath().get("id");
-
-        assertThat(response.jsonPath().get("id"), is(lastPetCreatedId));
 
         // Check that the new pet has properly been created
         response = utils.getRequest().get(getByIdEndpoint+lastPetCreatedId);
@@ -82,15 +89,45 @@ public class steps {
 
         assertThat(response.statusCode(), is(200));
         assertThat(response.jsonPath().get("id"), is(lastPetCreatedId));
-        assertThat(response.jsonPath().get("status"), is("available"));
+        assertThat(response.jsonPath().get("status"), is(status));
     }
 
     @Step
     public static void iUpdateThePetsStatusToSTATUS(String status) {
+      bodyFields = new HashMap<String, String>();
+      bodyFields.put("id", String.valueOf(lastPetCreatedId));
+      bodyFields.put("status", status);
+      response = utils.getRequest()
+      .body(utils.getJSON("pet", bodyFields))
+      .put(updateEndpoint);
+    
+      assertThat(response.statusCode(), is(200));
+      assertThat(response.jsonPath().get("status"), is(status));
+      assertThat(response.jsonPath().get("id"), is(lastPetCreatedId));
+
+      // Check that the new pet has properly been updated 
+      wait(5000);
+      response = utils.getRequest().get(getByIdEndpoint+lastPetCreatedId);  
+
+      assertThat(response.statusCode(), is(200));
+      assertThat(response.jsonPath().get("id"), is(lastPetCreatedId));
+      assertThat(response.jsonPath().get("status"), is(status));
     }
 
     @Step
     public static void iDeleteThePetID(String id) {
+      id = id.equals("previously created") ? String.valueOf(lastPetCreatedId) : id;
+      response = utils.getRequest()
+      .delete(deleteEndpoint+id);
+    
+      assertThat(response.statusCode(), is(200));
+      assertThat(response.jsonPath().get("message"), is(id));
+
+      // Check that the new pet has properly been deleted 
+      wait(5000);
+      response = utils.getRequest().get(getByIdEndpoint+id);  
+
+      assertThat(response.statusCode(), is(404));
     }
 
     private static void wait(int milis){
