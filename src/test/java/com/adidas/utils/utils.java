@@ -14,35 +14,35 @@ import net.serenitybdd.rest.SerenityRest;
 public class utils {
     public static String getProjectProperties(String key) {
         String value = "";
-        try{
+        try {
             Properties prop = new Properties();
-			FileReader file = new FileReader("project.properties");
+            FileReader file = new FileReader("project.properties");
             prop.load(file);
             value = prop.getProperty(key);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Unable to read project properties file");
         }
         return value;
     }
 
-    public static RequestSpecification getRequest(){
+    public static RequestSpecification getRequest() {
         return SerenityRest.given().contentType(ContentType.JSON);
     }
 
-    public static String getJSON(String jsonName, Map<String, String> values){
+    public static String getJSON(String jsonName, Map<String, String> values) {
         try {
             JSONParser parser = new JSONParser();
-            Object obj = parser.parse(new FileReader("src/test/resources/jsons/"+jsonName+".json"));
+            Object obj = parser.parse(new FileReader("src/test/resources/jsons/" + jsonName + ".json"));
 
             JSONObject json = (JSONObject) obj;
-            for(Map.Entry<String, String> entry : values.entrySet()){
+            for (Map.Entry<String, String> entry : values.entrySet()) {
                 json.put(entry.getKey(), entry.getValue());
             }
 
             return json.toJSONString();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
-            return "Error al leer/escribir el archivo json "+jsonName+".json";
+            return "Error al leer/escribir el archivo json " + jsonName + ".json";
         }
     }
 }
