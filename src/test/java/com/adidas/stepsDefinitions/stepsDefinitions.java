@@ -1,19 +1,10 @@
 package com.adidas.stepsDefinitions;
 
-import static org.junit.Assert.assertTrue;
-
-import com.adidas.utils.utils;
 import com.adidas.serenitySteps.steps;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.Given;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import net.serenitybdd.rest.SerenityRest;
-import io.restassured.RestAssured;
 
   public class stepsDefinitions {
 
@@ -22,19 +13,18 @@ import io.restassured.RestAssured;
       steps.iWantToTestNAMEAPI(api);
     }
 
-    @Given("^I retrieve all the \"([^\"]*)\" pets$")
-    public void iRetrieveAllTheSTATUSPets(String status){
-      steps.iRetrieveAllTheSTATUSPets(status);
+    @Given("^I retrieve all the pets with status \"([^\"]*)\"$")
+    public void iRetrieveAllThePetsWithStatusSTATUS(String status){
+      steps.iRetrieveAllThePetsWithStatusSTATUS(status);
     }
 
     @And("^I post a new \"([^\"]*)\" pet$")
     public void iPostANewSTATUSPet(String status) {
       steps.iPostANewSTATUSPet(status);
     }
-
-    @Then("^I update the pet's status to \"([^\"]*)\"$")
-    public void iUpdateThePetsStatusToSTATUS(String status) {
-      steps.iUpdateThePetsStatusToSTATUS(status);
+    @Then("^I update the status of the pet \"([^\"]*)\" to \"([^\"]*)\"$")
+    public void iUpdateTheStatusOfThePetIDToSTATUS(String id, String status) {
+      steps.iUpdateTheStatusOfThePetIDToSTATUS(id, status);
     }
 
     @And("^I delete the pet \"([^\"]*)\"$")

@@ -1,9 +1,6 @@
 package com.adidas.utils;
 
-import java.io.File;
 import java.io.FileReader;
-import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -35,7 +32,7 @@ public class utils {
     public static String getJSON(String jsonName, Map<String, String> values){
         try {
             JSONParser parser = new JSONParser();
-            Object obj = parser.parse(new FileReader("src/test/resources/requests/"+jsonName+".json"));
+            Object obj = parser.parse(new FileReader("src/test/resources/jsons/"+jsonName+".json"));
 
             JSONObject json = (JSONObject) obj;
             for(Map.Entry<String, String> entry : values.entrySet()){
