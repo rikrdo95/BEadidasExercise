@@ -28,7 +28,7 @@ public class Hooks {
 		System.out.println("--------------------START AFTER HOOK--------------------");
 
 		// We make sure to don't leave garbage stored if the test fails
-		esponse response = utils.getRequest().delete(steps.deleteEndpoint+ s teps.lastPetCreatedId);
+		Response response = utils.getRequest().delete(steps.deleteEndpoint+ steps.lastPetCreatedId);
 		System.out.println(
 				response.statusCode() == 200 ? "Element deleted successfully" : "Element could not be deleted");
 
