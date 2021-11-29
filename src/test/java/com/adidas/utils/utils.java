@@ -42,7 +42,7 @@ public class utils {
             return json.toJSONString();
         } catch (Exception e) {
             System.out.println(e);
-            return "Error al leer/escribir el archivo json " + jsonName + ".json";
+            return "Error al leer el archivo json " + jsonName + ".json";
         }
     }
 }
