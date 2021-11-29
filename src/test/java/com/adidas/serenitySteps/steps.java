@@ -52,7 +52,8 @@ public class steps {
 
     assertThat(response.statusCode(), is(200));
 
-    // List with all "status" fields of the response and check that all of them are the status expected
+    // List with all "status" fields of the response and check that all of them are
+    // the status expected
     List<String> statusListResponse = response.jsonPath().getList("status");
     boolean differentStatusFlag = false;
     for (String element : statusListResponse) {
@@ -76,14 +77,8 @@ public class steps {
     lastPetCreatedId = response.jsonPath().get("id");
 
     // Check that the new pet has properly been created
+    utils.wait(WAIT_MILIS);
     response = utils.getRequest().get(getByIdEndpoint + lastPetCreatedId);
-    // Sometimes the service doesn't get actualized immediately since the POST,
-    // so adding the wait we double-check. Sometimes it takes even more time
-    // than the waited, so it could be considered a time response issue of the server
-    if (response.statusCode() == 404) {
-      utils.wait(WAIT_MILIS);
-      response = utils.getRequest().get(getByIdEndpoint + lastPetCreatedId);
-    }
 
     assertThat(response.statusCode(), is(200));
     assertThat(response.jsonPath().get("id"), is(lastPetCreatedId));
