@@ -16,7 +16,7 @@ Execute this command to download the repo
 ## Execute
 Run this command in project directory
 
-  mvn clean verify
+    mvn clean verify
 
 ## Check results
 In the folder BEadidasExercise/target/site/serenity open the file index.html after the execution finish to open the report. 
