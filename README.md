@@ -3,9 +3,9 @@ Back-end automated testing repo by Ricardo Villanueva Ojosnegros for Adidas' rec
 
 ## Requirements
 
- - Java 11
- - Maven XXX
- - Windows
+ - Java 11.0.13
+ - Maven 3.8.4
+ - Windows 10
  - Git
  
 ## Download

@@ -26,6 +26,7 @@ public class steps {
   public static Long lastPetCreatedId;
   private static int WAIT_MILIS = 5000;
 
+  // I initialize all the variables needed to test the specified API
   @Step
   public static void iWantToTestNAMEAPI(String api) {
     String apiPrefix = "";
@@ -33,12 +34,12 @@ public class steps {
       case "PetStore":
         apiPrefix = api.toUpperCase() + "_";
     }
-    baseUrl = utils.getProjectProperties(apiPrefix + "BASE_URL");
-    getEndpoint = utils.getProjectProperties(apiPrefix + "GET_ENDPOINT");
-    getByIdEndpoint = utils.getProjectProperties(apiPrefix + "GET_BY_ID_ENDPOINT");
-    postEndpoint = utils.getProjectProperties(apiPrefix + "POST_ENDPOINT");
-    updateEndpoint = utils.getProjectProperties(apiPrefix + "PUT_ENDPOINT");
-    deleteEndpoint = utils.getProjectProperties(apiPrefix + "DELETE_ENDPOINT");
+    baseUrl = utils.getProjectProperty(apiPrefix + "BASE_URL");
+    getEndpoint = utils.getProjectProperty(apiPrefix + "GET_ENDPOINT");
+    getByIdEndpoint = utils.getProjectProperty(apiPrefix + "GET_BY_ID_ENDPOINT");
+    postEndpoint = utils.getProjectProperty(apiPrefix + "POST_ENDPOINT");
+    updateEndpoint = utils.getProjectProperty(apiPrefix + "PUT_ENDPOINT");
+    deleteEndpoint = utils.getProjectProperty(apiPrefix + "DELETE_ENDPOINT");
 
     RestAssured.baseURI = baseUrl;
   }
@@ -51,7 +52,7 @@ public class steps {
 
     assertThat(response.statusCode(), is(200));
 
-    // Lista con todos los campos "status" de la respuesta
+    // List with all "status" fields of the response and check that all of them are the status expected
     List<String> statusListResponse = response.jsonPath().getList("status");
     boolean differentStatusFlag = false;
     for (String element : statusListResponse) {
@@ -78,9 +79,9 @@ public class steps {
     response = utils.getRequest().get(getByIdEndpoint + lastPetCreatedId);
     // Sometimes the service doesn't get actualized immediately since the POST,
     // so adding the wait we double-check. Sometimes it takes even more time
-    // than the waited, so we could talk about a time response issue of the server
+    // than the waited, so it could be considered a time response issue of the server
     if (response.statusCode() == 404) {
-      wait(WAIT_MILIS);
+      utils.wait(WAIT_MILIS);
       response = utils.getRequest().get(getByIdEndpoint + lastPetCreatedId);
     }
 
@@ -104,7 +105,7 @@ public class steps {
     assertThat(response.jsonPath().get("id"), is(id));
 
     // Check that the new pet has properly been updated
-    wait(WAIT_MILIS);
+    utils.wait(WAIT_MILIS);
     response = utils.getRequest().get(getByIdEndpoint + id);
 
     assertThat(response.statusCode(), is(200));
@@ -122,17 +123,10 @@ public class steps {
     assertThat(Long.parseLong(response.jsonPath().get("message")), is(id));
 
     // Check that the new pet has properly been deleted
-    wait(WAIT_MILIS);
+    utils.wait(WAIT_MILIS);
     response = utils.getRequest().get(getByIdEndpoint + id);
 
     assertThat(response.statusCode(), is(404));
   }
 
-  private static void wait(int milis) {
-    try {
-      Thread.sleep(milis);
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-  }
 }

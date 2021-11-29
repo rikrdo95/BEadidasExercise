@@ -16,7 +16,7 @@ public class Hooks {
 		System.out.println("--------------------START OF BEFORE HOOK--------------------");
 
 		// In this case we don't need to do anythig before the scenario, but can be useful
-		// to set data in order to run a test that needs it. The scope of those methods can be
+		// to set data in order to run a test if needs it. The scope of those methods can be
 		// adjusted to specific scenarios with the tags @
 
 		System.out.println("--------------------END OF BEFORE HOOK--------------------");

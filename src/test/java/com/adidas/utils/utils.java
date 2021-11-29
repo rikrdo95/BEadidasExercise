@@ -12,7 +12,9 @@ import io.restassured.specification.RequestSpecification;
 import net.serenitybdd.rest.SerenityRest;
 
 public class utils {
-    public static String getProjectProperties(String key) {
+
+    // Returns the specified property from project.properties
+    public static String getProjectProperty(String key) {
         String value = "";
         try {
             Properties prop = new Properties();
@@ -29,6 +31,7 @@ public class utils {
         return SerenityRest.given().contentType(ContentType.JSON);
     }
 
+    // Gets the specified json and replace the given fields with the respective values
     public static String getJSON(String jsonName, Map<String, String> values) {
         try {
             JSONParser parser = new JSONParser();
@@ -45,4 +48,14 @@ public class utils {
             return "Error al leer el archivo json " + jsonName + ".json";
         }
     }
+    
+    // Explicit wait needed to wait the server update the data
+    public static void wait(int milis) {
+        try {
+          Thread.sleep(milis);
+        } catch (Exception e) {
+          System.out.println(e);
+        }
+      }
+    
 }
