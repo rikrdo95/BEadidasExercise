@@ -1,4 +1,4 @@
-package com.adidas.hooks;
+package com.adidas.Hooks;
 
 import com.adidas.serenitySteps.steps;
 import com.adidas.utils.utils;
